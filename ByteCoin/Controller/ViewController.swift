@@ -14,13 +14,14 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var currencyPicker: UIPickerView!
     
-    let coinManager = CoinManager()
+    var coinManager = CoinManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
+        coinManager.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -30,20 +31,33 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // jumlah item yang akan ditempilkan
         return coinManager.currencyArray.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        print("halo \(coinManager.currencyArray[row])")
+        //menampilkan text di picker
         return coinManager.currencyArray[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        coinManager.getCoinPrize(for: coinManager.currencyArray[row])
-        
+//        item yang terpilih        
         coinManager.fetchRate(to_currency: coinManager.currencyArray[row])
     }
-
-
 }
 
+extension ViewController: CoinManagerDelegate {
+    func didUpdateCoin(_ coinManager: CoinManager, coin: CoinModel) {
+
+        DispatchQueue.main.async {
+            self.bitcoinLabel.text = String(coin.rate)
+            self.currencyLabel.text =  coin.asset_id_quote
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
+    }
+    
+    
+}

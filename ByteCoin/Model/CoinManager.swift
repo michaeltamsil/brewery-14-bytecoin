@@ -41,9 +41,9 @@ struct CoinManager {
                 }
                 
                 if let safeData = data {
+                    
                     if let coin = self.parseJSON(safeData){
-//                        print(String(self.parseJSON(<#T##rateData: Data##Data#>)))
-                        print(" aku  \(coin)")
+                        print("save")
                         self.delegate?.didUpdateCoin(self, coin: coin)
                     }
                 }
@@ -56,11 +56,12 @@ struct CoinManager {
         let decoder = JSONDecoder()
         do {
             let decodeData = try decoder.decode(CoinData.self, from: rateData)
+            
             let time = decodeData.time
             let asset_id_base = decodeData.asset_id_base
             let asset_id_quote = decodeData.asset_id_quote
             let rate = decodeData.rate
-            
+            print(rate)
             let coinModel = CoinModel(time: time, asset_id_base: asset_id_base, asset_id_quote: asset_id_quote, rate: rate)
             return coinModel
         } catch {
