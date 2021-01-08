@@ -13,4 +13,7 @@ struct CoinModel {
     let asset_id_base: String
     let asset_id_quote: String
     let rate: Double
+    var rate2Decimal: Double {
+        return Double(String(format: "%.2f", rate)) ?? 0.00
+    }
 }
