@@ -1,3 +1,3 @@
 # brewery-14-bytecoin
 
-![](./demo.gif)
+<img src="./demo.gif" width="350px"/>
