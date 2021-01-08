@@ -28,16 +28,20 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         return 1
     }
     
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return coinManager.currencyArray.count
     }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        print("batman \(row) \(coinManager.currencyArray[row])")
+        print("halo \(coinManager.currencyArray[row])")
         return coinManager.currencyArray[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         coinManager.getCoinPrize(for: coinManager.currencyArray[row])
+        
+        coinManager.fetchRate(to_currency: coinManager.currencyArray[row])
     }
 
 
