@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ViewController: UIViewController, UIPickerViewDataSource {
 
     @IBOutlet weak var bitcoinLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -28,22 +28,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        // jumlah item yang akan ditempilkan
-        return coinManager.currencyArray.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        //menampilkan text di picker
-        return coinManager.currencyArray[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        item yang terpilih        
-        coinManager.fetchRate(to_currency: coinManager.currencyArray[row])
-    }
+
 }
 
 extension ViewController: CoinManagerDelegate {
@@ -58,6 +43,22 @@ extension ViewController: CoinManagerDelegate {
     func didFailWithError(error: Error) {
         print(error)
     }
+}
+
+extension ViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // jumlah item yang akan ditempilkan
+        return self.coinManager.currencyArray.count
+    }
     
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        //menampilkan text di picker
+        return self.coinManager.currencyArray[row]
+    }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        item yang terpilih
+        self.coinManager.fetchRate(to_currency: self.coinManager.currencyArray[row])
+    }
+
 }
